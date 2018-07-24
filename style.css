@@ -24,6 +24,7 @@ article {
     padding: 10px 10px;
 }
 
+/* media query would help here for smaller screens */
 .smallpicture {
     height: 250px;
 }
@@ -93,7 +94,7 @@ footer > h2 {
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 1rem 1rem;
-    width: 24rem;
+    /* width: 24rem; */
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -106,9 +107,9 @@ footer > h2 {
     font-weight: bold;
     text-align: center;
 }
-
+/* media quiery would help here so small screens show a smaller img */
 .modalimg {
-    width: 400px;
+    height: 400px;
 }
 
 .close-button {

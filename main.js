@@ -44,7 +44,7 @@ const toggleHidden = function () {
     modal.classList.toggle("show-modal");
 }
 
-var handleClick = function () {
+var handleClick = function (event) {
     var index = event.currentTarget.getAttribute('data-index');
     var imageData = imageList[index];
     //console.log(imagedata);
@@ -76,7 +76,10 @@ var modal = document.querySelector(".modal");
 var closeButton = document.querySelector(".close-button");
 closeButton.addEventListener("click", toggleHidden);
 // if click outside the modal. fuck. no work.
-// window.addEventListener("click", toggleHidden);
+// div.addEventListener("click", toggleHidden);
+// if (event.target === event.currentTarget) {
+//     closeclick()
+// }
 
 for (var i = 0; i < imageList.length; i++) {
     var content = document.querySelector('.mainbox'); //dot for query by class
