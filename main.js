@@ -88,10 +88,13 @@ for (var i = 0; i < imageList.length; i++) {
     newImg.classList.add('smallpicture');
     newImg.setAttribute('src', imageList[i].url);
     newImg.setAttribute('alt', imageList[i].caption);
+    // set up thumbnail div
     thumbnailDIV.setAttribute('data-index', i);
     thumbnailDIV.addEventListener('click', handleClick);
     thumbnailDIV.classList.add('thumbnail');
+    // set up text div
     thumbnailTextDIV.classList.add('thumbnail-text');
+    // set up caption div
     thumbnailTextCaption.classList.add('thumbnail-caption');
     thumbnailTextCaption.textContent = imageList[i].caption;
     // now add the new image to the new div, then to the content
