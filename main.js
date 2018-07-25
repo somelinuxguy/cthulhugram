@@ -40,69 +40,69 @@ var imageList = [{
     }
 ]
 
-const toggleHidden = function () {
+var modal = document.querySelector(".modal");
+var closeButton = document.querySelector(".close-button");
+
+const toggleHidden = function() {
+    console.log(event.currentTarget);
     modal.classList.toggle("show-modal");
 }
 
-var handleClick = function (event) {
-    var index = event.currentTarget.getAttribute('data-index');
-    var imageData = imageList[index];
-    //console.log(imagedata);
-    toggleHidden();
-    // make new image, select element where .modal-content is
-    const modalImage = document.createElement('img');
-    const modalCaption = document.createElement('p');
-    const container = modal.querySelector(".modal-content");
-    // kill the old ones off.
-    for (let child of container.children) {
-        if (child.tagName === "P") {
-            container.removeChild(child);
-        }
-    }
-    for (let child of container.children) {
-        if (child.tagName === "IMG") {
-            container.removeChild(child);
-        }
-    }
-    container.appendChild(modalImage);
-    container.appendChild(modalCaption);
-    modalCaption.classList.add('modalcaption');
-    modalCaption.textContent = imageData.caption;
-    modalImage.src = imageData.url;
-    modalImage.classList.add('modalimg');
-}
-
-var modal = document.querySelector(".modal");
-var closeButton = document.querySelector(".close-button");
 closeButton.addEventListener("click", toggleHidden);
-// if click outside the modal. fuck. no work.
-// div.addEventListener("click", toggleHidden);
-// if (event.target === event.currentTarget) {
-//     closeclick()
-// }
 
 for (var i = 0; i < imageList.length; i++) {
-    var content = document.querySelector('.mainbox'); //dot for query by class
-    var thumbnailDIV = document.createElement('div');
-    var thumbnailTextDIV = document.createElement('div');
-    var thumbnailTextCaption = document.createElement('p');
-    var newImg = document.createElement('img');
-    // set new image class, and attributes
-    newImg.classList.add('smallpicture');
-    newImg.setAttribute('src', imageList[i].url);
-    newImg.setAttribute('alt', imageList[i].caption);
-    // set up thumbnail div
-    thumbnailDIV.setAttribute('data-index', i);
-    thumbnailDIV.addEventListener('click', handleClick);
-    thumbnailDIV.classList.add('thumbnail');
-    // set up text div
-    thumbnailTextDIV.classList.add('thumbnail-text');
-    // set up caption div
-    thumbnailTextCaption.classList.add('thumbnail-caption');
-    thumbnailTextCaption.textContent = imageList[i].caption;
-    // now add the new image to the new div, then to the content
-    thumbnailDIV.appendChild(newImg);
-    thumbnailDIV.appendChild(thumbnailTextDIV);
-    thumbnailTextDIV.appendChild(thumbnailTextCaption);
-    content.appendChild(thumbnailDIV);
+    // lets make a closure for each image.
+    (function(){
+        var content = document.querySelector('.mainbox'); //dot for query by class
+        var thumbnailDIV = document.createElement('div');
+        var thumbnailTextDIV = document.createElement('div');
+        var thumbnailTextCaption = document.createElement('p');
+        var newImg = document.createElement('img');
+        var index = i;
+        // set new image class, and attributes
+        newImg.classList.add('smallpicture');
+        newImg.src = imageList[index].url;
+        newImg.alt = imageList[index].caption;
+
+        //handle click function
+        var handleClick = function(event) {
+            var imageData = imageList[index];
+            // show the modal:
+            toggleHidden();
+            // make new image, select element where .modal-content is
+            const modalImage = document.createElement('img');
+            const modalCaption = document.createElement('p');
+            const container = modal.querySelector(".modal-content");
+            // kill the old ones off.
+            for (let child of container.children) {
+                if (child.tagName === "P") {
+                    container.removeChild(child);
+                }
+            }
+            for (let child of container.children) {
+                if (child.tagName === "IMG") {
+                    container.removeChild(child);
+                }
+            }
+            container.appendChild(modalImage);
+            container.appendChild(modalCaption);
+            modalCaption.classList.add('modalcaption');
+            modalCaption.textContent = imageList[index].caption;
+            modalImage.src = imageData.url;
+            modalImage.classList.add('modalimg');
+            }   //end handleClick
+
+        thumbnailDIV.addEventListener('click', handleClick);
+        thumbnailDIV.classList.add('thumbnail');
+        // set up text div
+        thumbnailTextDIV.classList.add('thumbnail-text');
+        // set up caption div
+        thumbnailTextCaption.classList.add('thumbnail-caption');
+        thumbnailTextCaption.textContent = imageList[i].caption;
+        // now add the new image to the new div, then to the content
+        thumbnailDIV.appendChild(newImg);
+        thumbnailDIV.appendChild(thumbnailTextDIV);
+        thumbnailTextDIV.appendChild(thumbnailTextCaption);
+        content.appendChild(thumbnailDIV);
+    })();   //IIFE
 }
