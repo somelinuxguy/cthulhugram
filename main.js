@@ -40,13 +40,22 @@ var imageList = [{
     }
 ]
 
-var modal = document.querySelector(".modal");
-var closeButton = document.querySelector(".close-button");
-
-const toggleHidden = function() {
+const toggleHidden = function(event) {
     console.log(event.currentTarget);
+    console.log("toggle modal");
     modal.classList.toggle("show-modal");
 }
+
+const closeModal = function(event) {
+    console.log(event.currentTarget);
+    if (event.currentTarget === closeButton) {
+        console.log("oink");
+        modal.classList.toggle("show-modal");
+    }
+}
+
+var modal = document.querySelector(".modal");
+var closeButton = document.querySelector(".close-button");
 
 closeButton.addEventListener("click", toggleHidden);
 
@@ -68,7 +77,7 @@ for (var i = 0; i < imageList.length; i++) {
         var handleClick = function(event) {
             var imageData = imageList[index];
             // show the modal:
-            toggleHidden();
+            toggleHidden(event);
             // make new image, select element where .modal-content is
             const modalImage = document.createElement('img');
             const modalCaption = document.createElement('p');
