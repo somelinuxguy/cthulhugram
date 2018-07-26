@@ -42,16 +42,7 @@ var imageList = [{
 
 const toggleHidden = function(event) {
     console.log(event.currentTarget);
-    console.log("toggle modal");
     modal.classList.toggle("show-modal");
-}
-
-const closeModal = function(event) {
-    console.log(event.currentTarget);
-    if (event.currentTarget === closeButton) {
-        console.log("oink");
-        modal.classList.toggle("show-modal");
-    }
 }
 
 var modal = document.querySelector(".modal");
@@ -59,59 +50,58 @@ var closeButton = document.querySelector(".close-button");
 
 closeButton.addEventListener("click", toggleHidden);
 
-for (var i = 0; i < imageList.length; i++) {
-    // lets make a closure for each image.
-    (function(){
-        var content = document.querySelector('.mainbox'); //dot for query by class
-        var thumbnailDIV = document.createElement('div');
-        var thumbnailTextDIV = document.createElement('div');
-        var thumbnailTextCaption = document.createElement('p');
-        var newImg = document.createElement('img');
-        var index = i;
-        // set new image class, and attributes
-        newImg.classList.add('smallpicture');
-        newImg.src = imageList[index].url;
-        newImg.alt = imageList[index].caption;
+imageList.forEach(function(image, i) {      // iterate i
+    var content = document.querySelector('.mainbox'); //dot for query by class
+    var thumbnailDIV = document.createElement('div');
+    var thumbnailTextDIV = document.createElement('div');
+    var thumbnailTextCaption = document.createElement('p');
+    var newImg = document.createElement('img');
+    console.log(image);
+    // set new image class, and attributes
+    newImg.classList.add('smallpicture');
+    newImg.src = image.url;
+    newImg.alt = image.caption;
 
-        //handle click function
-        var handleClick = function(event) {
-            var imageData = imageList[index];
-            // show the modal:
-            toggleHidden(event);
-            // make new image, select element where .modal-content is
-            const modalImage = document.createElement('img');
-            const modalCaption = document.createElement('p');
-            const container = modal.querySelector(".modal-content");
-            // kill the old ones off.
-            for (let child of container.children) {
-                if (child.tagName === "P") {
-                    container.removeChild(child);
-                }
+    //handle click function
+    var handleClick = function(event) {
+        // show the modal:
+        toggleHidden(event);
+        // make new image, select element where .modal-content is
+        const modalImage = document.createElement('img');
+        const modalCaption = document.createElement('p');
+        const container = modal.querySelector(".modal-content");
+        // remove the previous image from the modal container
+        for (let child of container.children) {
+            if (child.tagName === "P") {
+                container.removeChild(child);
             }
-            for (let child of container.children) {
-                if (child.tagName === "IMG") {
-                    container.removeChild(child);
-                }
+        }
+        for (let child of container.children) {
+            if (child.tagName === "IMG") {
+                container.removeChild(child);
             }
-            container.appendChild(modalImage);
-            container.appendChild(modalCaption);
-            modalCaption.classList.add('modalcaption');
-            modalCaption.textContent = imageList[index].caption;
-            modalImage.src = imageData.url;
-            modalImage.classList.add('modalimg');
-            }   //end handleClick
+        }
+        container.appendChild(modalImage);
+        container.appendChild(modalCaption);
+        // lets make some new things with the container. here
+        // like making clicks move the image, etc
+        // yay.
+        modalCaption.classList.add('modalcaption');
+        modalCaption.textContent = image.caption;
+        modalImage.src = image.url;
+        modalImage.classList.add('modalimg');
+        }   //end handleClick
 
-        thumbnailDIV.addEventListener('click', handleClick);
-        thumbnailDIV.classList.add('thumbnail');
-        // set up text div
-        thumbnailTextDIV.classList.add('thumbnail-text');
-        // set up caption div
-        thumbnailTextCaption.classList.add('thumbnail-caption');
-        thumbnailTextCaption.textContent = imageList[i].caption;
-        // now add the new image to the new div, then to the content
-        thumbnailDIV.appendChild(newImg);
-        thumbnailDIV.appendChild(thumbnailTextDIV);
-        thumbnailTextDIV.appendChild(thumbnailTextCaption);
-        content.appendChild(thumbnailDIV);
-    })();   //IIFE
-}
+    thumbnailDIV.addEventListener('click', handleClick);
+    thumbnailDIV.classList.add('thumbnail');
+    // set up text div
+    thumbnailTextDIV.classList.add('thumbnail-text');
+    // set up caption div
+    thumbnailTextCaption.classList.add('thumbnail-caption');
+    thumbnailTextCaption.textContent = imageList[i].caption;
+    // now add the new image to the new div, then to the content
+    thumbnailDIV.appendChild(newImg);
+    thumbnailDIV.appendChild(thumbnailTextDIV);
+    thumbnailTextDIV.appendChild(thumbnailTextCaption);
+    content.appendChild(thumbnailDIV);
+    });
